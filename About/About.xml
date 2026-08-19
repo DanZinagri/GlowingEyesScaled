@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>Glowing Eyes Scaled</name>
+  <author>DanZinagri</author>
+  <packageId>DanZinagri.GlowingEyesScaled</packageId>
+  <supportedVersions>
+    <li>1.6</li>
+  </supportedVersions>
+  <modDependencies>
+    <li>
+      <packageId>brrainz.harmony</packageId>
+      <displayName>Harmony</displayName>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
+      <downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
+    </li>
+    <li>
+      <packageId>ludeon.rimworld.biotech</packageId>
+      <displayName>Biotech</displayName>
+    </li>
+    <li>
+      <packageId>lts.GEG</packageId>
+      <displayName>Glowing eyes genes</displayName>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/3023336989</steamWorkshopUrl>
+    </li>
+  </modDependencies>
+  <loadAfter>
+    <li>brrainz.harmony</li>
+    <li>Ludeon.RimWorld</li>
+    <li>Ludeon.RimWorld.Biotech</li>
+    <li>lts.GEG</li>
+    <li>Nals.FacialAnimation</li>
+    <li>lucius.eyegenes3</li>
+    <li>RedMattis.BetterPrerequisites</li>
+  </loadAfter>
+  <description>Glowing eyes genes draws its glow at a hardcoded height, so the glow only lines up on a plain adult human. This puts it on the eyes of whoever is actually wearing it, and cuts what the mod costs to run.
+
+WHAT IS WRONG
+The glow is pinned to the pawn's raw draw position with a fixed 0.27 offset - the vanilla adult head height (0.34) less the eye's own 0.07 drop, written in as a literal. Nothing in that path ever asks where the head really is, so any pawn whose head is not exactly where an adult human's would be gets the glow in the wrong place.
+
+FOLLOWS THE HEAD - no other mods needed
+The glow now reads the pawn's real head position every tick instead of assuming one. In an unmodded Biotech game that alone fixes children, whose heads sit lower than an adult's:
+
+  a baby's glow was 0.19 tiles off, a child's 0.14, a teenager's 0.04
+
+It also means the glow follows anything else that moves a head. Facial Animation's idle head motion is the obvious one - the glow now rides along with it instead of hanging in place.
+
+An adult human is unchanged, to the pixel.
+
+FOLLOWS RESIZING - needs Big and Small
+Big and Small lifts a resized pawn off the ground and scales its head, and the glow saw neither. A pawn with a large frame gene plus a gigantism trait could end up with the glow most of a tile below its eyes, and the movement trail down at chest height. Both now track the pawn, read straight from Big and Small's own cache, so stacked size sources compose without this mod knowing what contributed.
+
+Big and Small is optional. Without it this part simply never runs.
+
+RUNS CHEAPER - no other mods needed
+Glowing eyes genes checks each eye by walking every non-missing body part and allocating a list, per eye, per pawn, every tick. Measured in a running colony: 268,268 predicate calls against 4,004 checks, over half the mod's total cost, climbing past 12% of frame time as glowing pawns accumulate.
+
+That answer is now cached - same counts, same rules, both eyes resolved in one walk - and refreshed when the pawn's health actually changes, off a signal the game already fires. Worth installing for this alone if you run several glowing-eyed pawns.
+
+UPDATES AT FRAME RATE
+Glowing eyes genes recomputes the glow every tick. The glow is a visual, so at triple speed it was being worked out three times for every frame that could possibly show the result, and six times at superfast.
+
+It now runs once per frame's worth of ticks instead. None of its logic is replaced - on the ticks that pass through, its own code runs untouched and does all the work; the rest only keep the glow alive, which is a couple of field reads. Normal speed skips nothing at all and is identical to unpatched. Pawns are staggered so the passed-through ticks spread out rather than landing together.
+
+Normal speed is throttled too, by a different rule: a moving pawn updates every other tick and a standing one every sixth, because a standing pawn's glow does not change between ticks at all. A change of facing always updates immediately, so the glow never sits at the wrong offset. The movement trail is drawn half as often, which is still dense enough to read as continuous at any pawn speed - the original laid down about forty-eight overlapping copies per eye at once.
+
+With this on, showing the glow at every speed costs roughly what normal speed costs, and normal speed itself costs less than it did.
+
+SKIPS ITSELF AT HIGH SPEED
+The glow is computed once per tick, so its cost multiplies with game speed - three times over at fast, six at superfast. Glowing eyes genes already stops drawing the movement trail above normal speed, so past that point the bill keeps growing while half the effect is gone.
+
+By default the glow now switches itself off above normal speed, where it costs nothing at all. You can move that threshold up to fast, or turn it off and have the glow at every speed. The hook is added and removed with the setting, so choosing "never" costs nothing either.
+
+The glow now fades out over half a second instead of vanishing instantly, which also gives it room to tolerate skipped updates.
+
+HOW IT WORKS
+This patches, it does not replace. Glowing eyes genes keeps running as written - its motes, its trail, its conditions and its own settings are untouched, and its tick is never skipped. Most of the position fix is a single XML patch on its mote def; the rest is a small hook that only fires when a mote is created. Measured overhead in game: about 0.001ms.
+
+REQUIREMENTS
+Glowing eyes genes, Biotech and Harmony. Big and Small is supported but not required, and is reached reflectively so a change on its side degrades to "no correction" rather than a broken load. Compatible with Facial Animation and EyeGenes3; neither is needed.
+
+NOTE
+Children's glow sitting lower is a change from how Glowing eyes genes drew it, and is the intended fix rather than a side effect.
+
+Safe to add or remove mid-save.</description>
+</ModMetaData>
