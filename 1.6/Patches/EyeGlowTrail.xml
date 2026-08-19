@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+  <!-- Trail appearance. Costs no tick time - how often marks are laid is decided
+       in code by distance travelled, so these only change how each one looks.
+
+       texPath swaps the round glow for a purpose-shaped trail sprite. Its alpha is
+       a tent along its length, full in the middle and zero at both ends, and two
+       tents overlapped by half sum to a flat line - which is the whole reason the
+       trail stopped bubbling. The round sprite could not do that at any spacing:
+       soft blobs summed at intervals always ripple, so packing them tighter only
+       ever cost CPU. Marks are stretched and rotated along the pawn's path in
+       code, at twice the distance travelled, to hold that half overlap exactly.
+
+       drawSize is now the WIDTH of the trail only. Length is not set here.
+
+       solidTime sets how far back the trail reaches, and also how bright it looks,
+       since the marks stack additively. There is a brightness slider in the mod
+       settings for that; cut it before touching anything here. -->
+
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Glowing eyes genes</li>
+    </mods>
+    <match Class="PatchOperationSequence">
+      <operations>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/FleckDef[defName="GEG_EyeGlowFleck"]/graphicData/texPath</xpath>
+          <value>
+            <texPath>Things/Mote/GES_EyeGlowTrail</texPath>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/FleckDef[defName="GEG_EyeGlowFleck"]/graphicData/drawSize</xpath>
+          <value>
+            <drawSize>0.32</drawSize>
+          </value>
+        </li>
+
+        <!-- Ramp each mark in rather than having it appear at full strength.
+
+             The front of the trail advances a step at a time, so every new mark
+             lights a stretch that was dark an instant earlier - a step change in
+             brightness at the emission rate, which reads as the trail puffing out
+             of the eye. Fading in over roughly the time it takes to travel one step
+             turns that step into a ramp. Marks are laid about every 0.024s at a
+             walking pace, hence this value - it wants to stay near the interval,
+             so raise it if you raise the spacing setting a long way. -->
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/FleckDef[@Name="EyeGlowFleck"]/fadeInTime</xpath>
+          <value>
+            <fadeInTime>0.03</fadeInTime>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/FleckDef[@Name="EyeGlowFleck"]/solidTime</xpath>
+          <value>
+            <solidTime>0.55</solidTime>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/FleckDef[@Name="EyeGlowFleck"]/fadeOutTime</xpath>
+          <value>
+            <fadeOutTime>0.15</fadeOutTime>
+          </value>
+        </li>
+
+      </operations>
+    </match>
+  </Operation>
+
+</Patch>

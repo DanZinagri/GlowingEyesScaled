@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Reflection;
 using HarmonyLib;
+using UnityEngine;
 using Verse;
 
 namespace GlowingEyesScaled
@@ -14,32 +17,18 @@ namespace GlowingEyesScaled
     {
         public const string PackageId = "lts.GEG";
 
-        // The mote def GEG attaches to the pawn for the steady glow.
-        public static readonly ThingDef EyeGlowMote;
+        // True when GEG is present and its glow genes were resolved.
+        public static readonly bool Active;
 
-        // True when the glow position can be corrected.
-        public static readonly bool PositionActive;
+        // GEG's trail fleck.
+        public static readonly FleckDef GlowFleck;
 
-        // GEG_Gene_GlowingEyes.Tick, and the class it lives on. Only patched while
-        // the speed gate or the throttle is switched on, and unpatched again when
-        // both are off, so with both off there is no hook on it at all.
+        // GEG_Gene_GlowingEyes.Tick, and the class it lives on. Their gene class is
+        // no longer instantiated - geneClass is repointed at Gene_EyeGlow - so this
+        // is only wanted to suppress the tick if that ever fails to apply, and to
+        // recognise their class on a save made before this mod.
         public static readonly MethodInfo GeneTick;
         public static readonly Type GeneType;
-
-        // GEG's two per-tick eye scans, replaced with a cached lookup.
-        public static readonly MethodInfo HasLeftEye;
-        public static readonly MethodInfo HasRightEye;
-
-        // True when both eye scans were found and can be memoised.
-        public static readonly bool EyeCacheActive;
-
-        // GEG_FleckMaker.ThrowEyeGlowFleck - the movement trail.
-        public static readonly MethodInfo ThrowFleck;
-
-        // True when the trail can be corrected. Depends on EyeCacheActive: the
-        // trail helper takes no pawn, and the ticking pawn is picked up from the
-        // eye-check prefixes, which GEG calls immediately before every throw.
-        public static readonly bool FleckActive;
 
         static GegBridge()
         {
@@ -48,57 +37,104 @@ namespace GlowingEyesScaled
                 return;
             }
 
-            EyeGlowMote = DefDatabase<ThingDef>.GetNamedSilentFail("GEG_EyeGlowMote");
-            PositionActive = EyeGlowMote != null;
-            if (!PositionActive)
-            {
-                Log.Warning("[Glowing Eyes Scaled] Could not find the GEG_EyeGlowMote def. Glow position will not be corrected.");
-            }
+            GlowFleck = DefDatabase<FleckDef>.GetNamedSilentFail("GEG_EyeGlowFleck");
 
             Type geneType = AccessTools.TypeByName("GEG_GlowingEyes.GEG_Gene_GlowingEyes");
             GeneType = geneType;
             if (geneType != null)
             {
                 GeneTick = AccessTools.DeclaredMethod(geneType, "Tick");
-                TickThrottle.Bind(geneType);
-                HasLeftEye = AccessTools.DeclaredMethod(geneType, "HasLeftEye");
-                HasRightEye = AccessTools.DeclaredMethod(geneType, "HasRightEye");
             }
 
-            EyeCacheActive = HasLeftEye != null && HasRightEye != null;
-            if (!EyeCacheActive)
+            Type settingsHandler = AccessTools.TypeByName("GEG_GlowingEyes.SettingsHandler");
+            SettingsField = settingsHandler == null ? null : AccessTools.Field(settingsHandler, "Settings");
+            if (SettingsField != null)
             {
-                Log.Warning("[Glowing Eyes Scaled] Could not find GEG's eye checks. Their per-tick body part scans will not be cached, "
-                    + "and the movement trail will not be corrected.");
+                OnlyWhileDraftedField = AccessTools.Field(SettingsField.FieldType, "LTS_GEG_OnlyWhileDrafted");
+                if (OnlyWhileDraftedField != null)
+                {
+                    try
+                    {
+                        // Compiled rather than reflected: FieldInfo.GetValue on this
+                        // pair measured over 6us a call, which is a lot for reading
+                        // one bool on a path that runs per pawn.
+                        readOnlyWhileDrafted = Expression.Lambda<Func<bool>>(
+                            Expression.Field(Expression.Field(null, SettingsField), OnlyWhileDraftedField)).Compile();
+                    }
+                    catch (Exception)
+                    {
+                        readOnlyWhileDrafted = null;
+                    }
+                }
             }
 
-            Type fleckMaker = AccessTools.TypeByName("GEG_GlowingEyes.GEG_FleckMaker");
-            ThrowFleck = fleckMaker == null ? null : AccessTools.DeclaredMethod(fleckMaker, "ThrowEyeGlowFleck");
-            FleckActive = ThrowFleck != null && EyeCacheActive;
+            Type extType = AccessTools.TypeByName("GEG_GlowingEyes.GEGModExtension");
+            FieldInfo colorField = extType == null ? null : AccessTools.Field(extType, "GEG_EyeColor");
+            {
+                foreach (GeneDef def in DefDatabase<GeneDef>.AllDefsListForReading)
+                {
+                    // geneClass is repointed at ours by Patches/EyeGlowGeneClass.xml,
+                    // so match either - theirs still turns up on an older save.
+                    if (def.geneClass != null
+                        && (typeof(Gene_EyeGlow).IsAssignableFrom(def.geneClass)
+                            || geneType.IsAssignableFrom(def.geneClass)))
+                    {
+                        GlowGenes[def] = ReadColor(def, extType, colorField);
+                    }
+                }
+            }
+
+            Active = GeneTick != null && GlowGenes.Count > 0;
         }
-    }
-}
 
-namespace GlowingEyesScaled
-{
-    // GEG throws its trail through a static helper that takes no pawn. Rather
-    // than hooking its Tick just to learn who is ticking, the pawn is picked up
-    // from the eye-check prefixes - GEG guards every single throw with
-    // HasRightEye() or HasLeftEye() on that same pawn immediately beforehand, so
-    // the stash is always current and costs one field write inside a prefix that
-    // is running anyway.
-    //
-    // Every read is validated against both the tick and the fleck's own map, so a
-    // stale value can never be applied to the wrong pawn.
-    public static class GegTickContext
-    {
-        public static Pawn CurrentPawn;
-        public static int CurrentTick = -1;
+        private static readonly Dictionary<GeneDef, Color> GlowGenes = new Dictionary<GeneDef, Color>();
+        private static readonly FieldInfo SettingsField;
+        private static readonly FieldInfo OnlyWhileDraftedField;
+        private static readonly Func<bool> readOnlyWhileDrafted;
 
-        public static void Note(Pawn pawn)
+        private static Color ReadColor(GeneDef def, Type extType, FieldInfo colorField)
         {
-            CurrentPawn = pawn;
-            CurrentTick = Find.TickManager.TicksGame;
+            if (extType == null || colorField == null || def.modExtensions == null)
+            {
+                return Color.white;
+            }
+            foreach (DefModExtension ext in def.modExtensions)
+            {
+                if (extType.IsInstanceOfType(ext))
+                {
+                    return (Color)colorField.GetValue(ext);
+                }
+            }
+            return Color.white;
+        }
+
+        // GEG's own "only glow while drafted" setting, read live so its settings
+        // window keeps working.
+        public static bool OnlyWhileDrafted => readOnlyWhileDrafted != null && readOnlyWhileDrafted();
+
+        public static bool HasGlowGene(Pawn pawn)
+        {
+            Color ignored;
+            return TryGetGlowColor(pawn, out ignored);
+        }
+
+        public static bool TryGetGlowColor(Pawn pawn, out Color color)
+        {
+            color = Color.white;
+            if (pawn?.genes == null || GlowGenes.Count == 0)
+            {
+                return false;
+            }
+            List<Gene> genes = pawn.genes.GenesListForReading;
+            for (int i = 0; i < genes.Count; i++)
+            {
+                Gene gene = genes[i];
+                if (gene != null && gene.Active && GlowGenes.TryGetValue(gene.def, out color))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

@@ -16,9 +16,20 @@ namespace GlowingEyesScaled
 
     public class GesSettings : ModSettings
     {
-        // Grow the glow sprite along with the head it sits on. Off leaves
-        // the original fixed sprite size at every pawn size.
-        public bool scaleGlowWithHead = true;
+        // Size multiplier for the render node glow.
+        public float glowScale = 1f;
+
+        // Cells of travel between trail marks. Only affects how finely the path is
+        // chopped up - the marks are sized to overlap whatever this is set to.
+        public float trailSpacing = 0.15f;
+
+        // Overall trail opacity. The sprite stacks additively, so this is the knob
+        // for "too intense" rather than the size.
+        public float trailBrightness = 0.6f;
+
+        // How much the eye glow swells while the pawn is walking, covering the
+        // stretch where new trail marks appear.
+        public float movingGlowBoost = 1.6f;
 
         // Skip the glow above a chosen game speed.
         //
@@ -28,23 +39,16 @@ namespace GlowingEyesScaled
         // multiplying while half the effect is already gone.
         public GlowSpeedGate hideAboveSpeed = GlowSpeedGate.AboveNormal;
 
-        // Run the glow at frame rate rather than tick rate. Nothing is skipped at
-        // normal speed; above it, one tick in three or six is let through and the
-        // rest only keep the mote alive.
-        public bool throttleToFrameRate = true;
 
-        // Throttle at normal speed too. Nothing above is affected by this - at
-        // normal speed the stride is chosen from whether the pawn is moving, since
-        // that is the only time anything visual changes between ticks.
-        public bool throttleAtNormalSpeed = true;
 
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look(ref scaleGlowWithHead, "scaleGlowWithHead", true);
+            Scribe_Values.Look(ref glowScale, "glowScale", 1f);
+            Scribe_Values.Look(ref trailSpacing, "trailSpacing", 0.15f);
+            Scribe_Values.Look(ref trailBrightness, "trailBrightness", 0.6f);
+            Scribe_Values.Look(ref movingGlowBoost, "movingGlowBoost", 1.6f);
             Scribe_Values.Look(ref hideAboveSpeed, "hideAboveSpeed", GlowSpeedGate.AboveNormal);
-            Scribe_Values.Look(ref throttleToFrameRate, "throttleToFrameRate", true);
-            Scribe_Values.Look(ref throttleAtNormalSpeed, "throttleAtNormalSpeed", true);
         }
     }
 
@@ -64,34 +68,35 @@ namespace GlowingEyesScaled
             Listing_Standard listing = new Listing_Standard();
             listing.Begin(inRect);
 
-            listing.CheckboxLabeled("Scale glow with head size", ref Settings.scaleGlowWithHead,
-                "Grows the glow sprite on larger pawns. Turn off to keep the original fixed size at every scale.");
+            listing.Label("Glow size: " + Settings.glowScale.ToStringPercent());
+            Settings.glowScale = listing.Slider(Settings.glowScale, 0.25f, 3f);
+            listing.Gap(6f);
+
+            listing.Label("Glow swell while walking: " + Settings.movingGlowBoost.ToStringPercent());
+            Settings.movingGlowBoost = listing.Slider(Settings.movingGlowBoost, 1f, 2.5f);
+            listing.Label("Covers the stretch at the eye where new trail marks appear. Costs nothing, and lets the "
+                + "trail be drawn more sparsely than it otherwise could be.");
             listing.Gap();
 
-            listing.CheckboxLabeled("Update at frame rate, not tick rate", ref Settings.throttleToFrameRate,
-                "Glowing eyes genes recomputes the glow every tick, so at triple speed it does so three times per frame "
-                + "and at sextuple, six. This lets one of those through and has the rest only keep the glow alive. "
-                + "Normal speed is untouched. With this on, showing the glow at every speed costs about what normal "
-                + "speed costs.");
+            listing.Label("Trail density: one mark every " + Settings.trailSpacing.ToString("0.00") + " cells");
+            Settings.trailSpacing = listing.Slider(Settings.trailSpacing, 0.05f, 0.25f);
+            listing.Label("Each mark is sized to overlap its neighbours by half, so this only decides how finely the "
+                + "path is chopped up, not whether the trail has holes in it. Lower follows a turn more closely and "
+                + "costs more.");
+            listing.Gap(6f);
 
-            if (Settings.throttleToFrameRate)
-            {
-                listing.CheckboxLabeled("    Throttle at normal speed too", ref Settings.throttleAtNormalSpeed,
-                    "At normal speed a moving pawn updates every other tick and a standing one every sixth, since a "
-                    + "standing pawn's glow does not change between ticks. A change of facing always updates at once. "
-                    + "The movement trail is drawn twice as sparsely, which is still dense enough to look continuous "
-                    + "at any pawn speed.");
-            }
+            listing.Label("Trail brightness: " + Settings.trailBrightness.ToStringPercent());
+            Settings.trailBrightness = listing.Slider(Settings.trailBrightness, 0.1f, 1.5f);
             listing.Gap();
 
-            listing.Label("Stop computing the glow above:");
+            listing.Label("Stop drawing the glow above:");
             if (listing.RadioButton("Never - always show the glow", Settings.hideAboveSpeed == GlowSpeedGate.Never,
-                    0f, "The glow is drawn at every game speed, at full per-tick cost."))
+                    0f, "The glow is drawn at every game speed."))
             {
                 Settings.hideAboveSpeed = GlowSpeedGate.Never;
             }
             if (listing.RadioButton("Normal speed", Settings.hideAboveSpeed == GlowSpeedGate.AboveNormal,
-                    0f, "Default. The glow disappears on fast and above, where the movement trail is already gone. Cheapest option."))
+                    0f, "Default. The glow disappears on fast and above, where the movement trail is already gone."))
             {
                 Settings.hideAboveSpeed = GlowSpeedGate.AboveNormal;
             }
@@ -100,11 +105,9 @@ namespace GlowingEyesScaled
             {
                 Settings.hideAboveSpeed = GlowSpeedGate.AboveFast;
             }
-
-            listing.Gap();
-            listing.Label("The glow is computed every tick, so its cost multiplies with game speed - three times over at fast, "
-                + "six at superfast. The movement trail is already skipped above normal speed by Glowing eyes genes itself, "
-                + "so above normal you are paying for a steady glow only.");
+            listing.Label("The glow itself costs nothing per tick, but its trail is still drawn while pawns walk. "
+                + "Glowing eyes genes already stops the trail above normal speed, so past that there is little left "
+                + "to see.");
 
             listing.End();
             base.DoSettingsWindowContents(inRect);
@@ -114,7 +117,8 @@ namespace GlowingEyesScaled
         public override void WriteSettings()
         {
             base.WriteSettings();
-            GesStartup.ApplySpeedGate();
+            GesStartup.Apply();
+            GlowRecache.MarkAll();
         }
 
         public override string SettingsCategory()
@@ -127,7 +131,8 @@ namespace GlowingEyesScaled
     public static class GesStartup
     {
         private static Harmony harmony;
-        private static bool speedGateApplied;
+
+        private static bool tickSuppressed;
 
         static GesStartup()
         {
@@ -135,81 +140,65 @@ namespace GlowingEyesScaled
             // hence patching here rather than in the Mod constructor.
             harmony = new Harmony("DanZinagri.GlowingEyesScaled");
 
-            if (GegBridge.PositionActive)
-            {
-                // The only unconditional position hook. Fires when GEG creates a
-                // mote, i.e. on rotation change; the head-height half is XML.
-                harmony.Patch(
-                    AccessTools.Method(typeof(MoteMaker), nameof(MoteMaker.MakeAttachedOverlay)),
-                    prefix: new HarmonyMethod(typeof(EyeGlowPositionPatch), nameof(EyeGlowPositionPatch.MoteOffsetPrefix)));
-            }
-
-            if (GegBridge.EyeCacheActive)
-            {
-                harmony.Patch(GegBridge.HasLeftEye,
-                    prefix: new HarmonyMethod(typeof(EyeCachePatch), nameof(EyeCachePatch.HasLeftEyePrefix)));
-                harmony.Patch(GegBridge.HasRightEye,
-                    prefix: new HarmonyMethod(typeof(EyeCachePatch), nameof(EyeCachePatch.HasRightEyePrefix)));
-                harmony.Patch(
-                    AccessTools.Method(typeof(HediffSet), nameof(HediffSet.DirtyCache)),
-                    postfix: new HarmonyMethod(typeof(EyeCachePatch), nameof(EyeCachePatch.DirtyCachePostfix)));
-            }
-
-            if (GegBridge.FleckActive)
-            {
-                harmony.Patch(GegBridge.ThrowFleck,
-                    prefix: new HarmonyMethod(typeof(EyeGlowPositionPatch), nameof(EyeGlowPositionPatch.FleckLocPrefix)));
-            }
-
-            ApplySpeedGate();
-        }
-
-        // Applied and removed with the setting rather than left in place behind a
-        // check, so that with the gate off GEG's tick carries no hook of ours at
-        // all - nothing to attribute and nothing to pay for.
-        public static void ApplySpeedGate()
-        {
-            bool wanted = GegBridge.GeneTick != null
-                && (GesMod.Settings.hideAboveSpeed != GlowSpeedGate.Never
-                    || (GesMod.Settings.throttleToFrameRate && TickThrottle.MoteAccessReady));
-
-            if (wanted == speedGateApplied)
+            if (!GegBridge.Active)
             {
                 return;
             }
 
-            MethodInfo patch = AccessTools.Method(typeof(TickThrottle), nameof(TickThrottle.Prefix));
-            if (wanted)
-            {
-                harmony.Patch(GegBridge.GeneTick, prefix: new HarmonyMethod(patch));
-            }
-            else
-            {
-                harmony.Unpatch(GegBridge.GeneTick, patch);
-            }
-            speedGateApplied = wanted;
+            harmony.Patch(
+                AccessTools.Method(typeof(HediffSet), nameof(HediffSet.DirtyCache)),
+                postfix: new HarmonyMethod(typeof(EyeCachePatch), nameof(EyeCachePatch.DirtyCachePostfix)));
+            harmony.Patch(
+                AccessTools.PropertySetter(typeof(Pawn_DraftController), nameof(Pawn_DraftController.Drafted)),
+                postfix: new HarmonyMethod(typeof(GlowRecache), nameof(GlowRecache.DraftedPostfix)));
+            harmony.Patch(
+                AccessTools.PropertySetter(typeof(TickManager), nameof(TickManager.CurTimeSpeed)),
+                postfix: new HarmonyMethod(typeof(GlowRecache), nameof(GlowRecache.TimeSpeedPostfix)));
+            harmony.Patch(
+                AccessTools.Method(typeof(Game), nameof(Game.FinalizeInit)),
+                postfix: new HarmonyMethod(typeof(GesStartup), nameof(GesStartup.FinalizeInitPostfix)));
+
+            Apply();
         }
+
+        public static void FinalizeInitPostfix()
+        {
+            LegacyGeneMigration.Run();
+        }
+
+        // Nothing here is conditional any more - the tick suppressor is applied
+        // once and stays. Kept as a method so settings changes still push their
+        // cached values through.
+        public static void Apply()
+        {
+            if (!GegBridge.Active)
+            {
+                return;
+            }
+
+            TrailEmitter.CacheSettings();
+            PawnRenderNodeWorker_EyeGlow.glowScale = GesMod.Settings.glowScale;
+            PawnRenderNodeWorker_EyeGlow.movingBoost = GesMod.Settings.movingGlowBoost;
+
+            if (!tickSuppressed && GegBridge.GeneTick != null)
+            {
+                // Their gene class is not instantiated at all once geneClass is
+                // repointed, so this normally never runs. It is here for the case
+                // where that patch fails to apply - their class would still be used
+                // and would draw its own motes on top of our nodes - and for genes
+                // on a save made before this mod, until they are migrated.
+                harmony.Patch(GegBridge.GeneTick,
+                    prefix: new HarmonyMethod(typeof(GlowSuppressor), nameof(GlowSuppressor.Prefix)));
+                tickSuppressed = true;
+            }
+        }
+
     }
 
-    // Swaps GEG's two per-tick body part scans for a cached lookup. Identical
-    // results; see EyeCache for why.
+    // Keeps the eye-presence cache honest. The cache itself is read straight from
+    // CanDrawNow; this is the only thing that has to invalidate it.
     public static class EyeCachePatch
     {
-        public static bool HasLeftEyePrefix(Gene __instance, ref bool __result)
-        {
-            // Doubles as the trail's pawn stash; see GegTickContext.
-            GegTickContext.Note(__instance.pawn);
-            __result = EyeCache.HasLeftEye(__instance.pawn);
-            return false;
-        }
-
-        public static bool HasRightEyePrefix(Gene __instance, ref bool __result)
-        {
-            GegTickContext.Note(__instance.pawn);
-            __result = EyeCache.HasRightEye(__instance.pawn);
-            return false;
-        }
-
         public static void DirtyCachePostfix(HediffSet __instance)
         {
             EyeCache.Invalidate(__instance.pawn);

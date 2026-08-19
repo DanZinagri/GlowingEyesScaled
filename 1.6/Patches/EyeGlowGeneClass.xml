@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+  <!-- Points the glow genes at a class that does nothing, so nothing ticks.
+
+       Glowing eyes genes drives its glow from Gene.Tick, which fires once per gene
+       per tick for as long as the pawn exists. A Harmony patch can stop that tick
+       doing any work but cannot stop it being called, which left a floor of
+       thousands of near-empty calls a second whether or not a single pawn was
+       glowing. The glow does not need a tick at all - it is a render node now, and
+       its trail is laid from the same pass that draws it - so the cheapest fix is
+       for their class never to be instantiated.
+
+       Nothing is disabled and nothing is overwritten. Their assembly still loads;
+       their gene defs, textures, mote and fleck defs, mod extension and settings
+       window all still work and are all still used. geneClass is an ordinary XML
+       field, so this is the whole change.
+
+       Applied to the abstract parent because PatchOperations run on raw XML before
+       ParentName inheritance is resolved. Pawns from an older save come back
+       holding the original class, since saves store a gene's concrete type; those
+       are swapped over once on load, in LegacyGeneMigration. -->
+
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Glowing eyes genes</li>
+    </mods>
+    <match Class="PatchOperationReplace">
+      <xpath>/Defs/GeneDef[@Name="GEG_GeneGlowingEyes"]/geneClass</xpath>
+      <value>
+        <geneClass>GlowingEyesScaled.Gene_EyeGlow</geneClass>
+      </value>
+    </match>
+  </Operation>
+
+</Patch>

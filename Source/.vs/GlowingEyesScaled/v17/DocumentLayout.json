@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\GlowingEyesScaled\\Source\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{4C09B5B2-D762-E42C-D552-16908FA974EC}|GlowingEyesScaled.csproj|e:\\steamlibrary\\steamapps\\common\\rimworld\\mods\\glowingeyesscaled\\source\\trailemitter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4C09B5B2-D762-E42C-D552-16908FA974EC}|GlowingEyesScaled.csproj|solutionrelative:trailemitter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C09B5B2-D762-E42C-D552-16908FA974EC}|GlowingEyesScaled.csproj|e:\\steamlibrary\\steamapps\\common\\rimworld\\mods\\glowingeyesscaled\\source\\gene_eyeglow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4C09B5B2-D762-E42C-D552-16908FA974EC}|GlowingEyesScaled.csproj|solutionrelative:gene_eyeglow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "TrailEmitter.cs",
+              "DocumentMoniker": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\GlowingEyesScaled\\Source\\TrailEmitter.cs",
+              "RelativeDocumentMoniker": "TrailEmitter.cs",
+              "ToolTip": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\GlowingEyesScaled\\Source\\TrailEmitter.cs",
+              "RelativeToolTip": "TrailEmitter.cs",
+              "ViewState": "AgIAAGAAAAAAAAAAAAAowBkAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-19T13:49:42.537Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Gene_EyeGlow.cs",
+              "DocumentMoniker": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\GlowingEyesScaled\\Source\\Gene_EyeGlow.cs",
+              "RelativeDocumentMoniker": "Gene_EyeGlow.cs",
+              "ToolTip": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\GlowingEyesScaled\\Source\\Gene_EyeGlow.cs",
+              "RelativeToolTip": "Gene_EyeGlow.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAAAsAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-19T13:43:54.029Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

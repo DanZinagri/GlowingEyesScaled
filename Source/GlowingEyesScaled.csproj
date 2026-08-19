@@ -4,7 +4,7 @@
     <AssemblyName>GlowingEyesScaled</AssemblyName>
     <RootNamespace>GlowingEyesScaled</RootNamespace>
     <LangVersion>latest</LangVersion>
-    <OutputPath>..\Assemblies\</OutputPath>
+    <OutputPath>..\1.6\Assemblies\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <GenerateDependencyFile>false</GenerateDependencyFile>
     <DebugType>none</DebugType>
