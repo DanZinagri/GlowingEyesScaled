@@ -3,3 +3,4 @@ E:\SteamLibrary\steamapps\common\RimWorld\Mods\GlowingEyesScaled\Source\obj\Debu
 E:\SteamLibrary\steamapps\common\RimWorld\Mods\GlowingEyesScaled\Source\obj\Debug\GlowingEyesScaled.GeneratedMSBuildEditorConfig.editorconfig
 E:\SteamLibrary\steamapps\common\RimWorld\Mods\GlowingEyesScaled\Source\obj\Debug\GlowingEyesScaled.csproj.CoreCompileInputs.cache
 E:\SteamLibrary\steamapps\common\RimWorld\Mods\GlowingEyesScaled\Source\obj\Debug\GlowingEyesScaled.dll
+E:\SteamLibrary\steamapps\common\RimWorld\Mods\GlowingEyesScaled\1.6\Assemblies\GlowingEyesScaled.dll

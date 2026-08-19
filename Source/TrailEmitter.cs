@@ -5,12 +5,6 @@ using Verse;
 namespace GlowingEyesScaled
 {
     // Lays the movement trail, driven from the draw pass rather than from a tick.
-    //
-    // The position a mark is laid at only advances when the pawn is drawn, so
-    // running this per frame removes the mismatch between the two rates - there is
-    // no such thing as a stale position here, and no phase drift between frame rate
-    // and tick rate to make the spacing wander. It also costs nothing extra: the
-    // glow node already does one piece of per-frame work, and this rides on it.
     public static class TrailEmitter
     {
         // A mark is drawn twice as long as the step just taken. The trail sprite's
@@ -24,15 +18,6 @@ namespace GlowingEyesScaled
         private const float TrailWidthFactor = 0.42f;
 
         // A floor on the spacing relative to a mark's own width.
-        //
-        // Kept low deliberately. The tent makes the marks sum to an even line along
-        // the path whatever their width, so a mark being wider than it is long is
-        // not what breaks the trail up - this is only a guard against pathological
-        // cases. Raising it costs more than it sounds: spacing sets how long each
-        // mark is, and the tent's bright middle sits half a mark back, so a larger
-        // spacing pushes the visible start of the trail further behind the eye.
-        // That is what made the trail look detached on big pawns, whose width - and
-        // therefore whose floor - scales with the glow.
         private const float MinSpacingPerWidth = 0.35f;
 
         // A step longer than this is not a step - the pawn stopped, went elsewhere
@@ -43,17 +28,6 @@ namespace GlowingEyesScaled
 
         // How far back a mark is shifted from the eye, as a fraction of its half
         // length.
-        //
-        // At 1 the mark's leading tip sits exactly on the eye - which sounds right
-        // and is not, because the tent is zero at that tip and only reaches full
-        // brightness a whole spacing behind. The trail cannot be bright at the eye
-        // at all, and that ramp is the gap.
-        //
-        // Shifting it forward puts the bright middle near the eye instead. The part
-        // that then overhangs the eye is underneath the glow, which is drawn on top
-        // and is far brighter, so it costs nothing visually. Centres stay one
-        // spacing apart whatever this is, so the tent's half overlap - and the flat
-        // sum along the trail - is unaffected.
         private const float LeadFraction = 0.4f;
 
         private const float MaxStretch = 6f;

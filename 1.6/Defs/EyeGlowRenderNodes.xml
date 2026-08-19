@@ -12,21 +12,6 @@
     <defName>GES_EyeGlowRight</defName>
   </PawnRenderNodeTagDef>
 
-  <!-- Mirrors the eye nodes Glowing eyes genes already ships on its gene defs:
-       same anchorTag, same side, same -0.25 drop off the eye wound anchor. That
-       drop puts the glow at head-local z -0.07, exactly the height its mote's
-       hardcoded 0.27 implied (0.34 - 0.07), so the glow lands where it always did
-       on a baseline pawn and only its behaviour under scaling changes.
-
-       Deliberately NOT PawnRenderNodeProperties_Eye: that subclass sets skipFlag
-       Eyes in ResolveReferences, and Facial Animation drops any gene-owned node of
-       that class when its eye parts setting is off. These are injected without a
-       gene attached, which dodges that filter entirely.
-
-       Layer 72 sits just above head apparel (70), matching the mote it replaces,
-       which drew at MoteOverhead and so shone through helmets. Drop it to 54 to
-       have headgear cover the glow instead. Vanilla head layers for reference:
-       beard 60, hair 62, wounds 65, head apparel 70, firefoam 85, status 100. -->
   <GlowingEyesScaled.EyeGlowDef>
     <defName>GES_EyeGlow</defName>
     <nodes>

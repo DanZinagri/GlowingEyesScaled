@@ -32,36 +32,5 @@
     <li>lucius.eyegenes3</li>
     <li>RedMattis.BetterPrerequisites</li>
   </loadAfter>
-  <description>Glowing eyes genes draws its glow at a hardcoded height and recomputes it every tick. This puts it on the eyes of whoever is actually wearing it, and takes most of the running cost out.
-
-WHAT IS WRONG
-The glow is a mote pinned to the pawn's raw draw position with a fixed 0.27 offset - the vanilla adult head height (0.34) less the eye's own 0.07 drop, written in as a literal. Nothing in that path asks where the head really is, so any pawn whose head is not where an adult human's would be gets the glow in the wrong place. And because it is a mote, it has to be re-decided and re-maintained every single tick.
-
-DRAWN AS PART OF THE PAWN
-The glow is now a render node parented to the head, rather than a mote floating alongside it.
-
-That one change does both jobs at once. Position and scale come from the head's own transform, so there is no arithmetic to get wrong and nothing to keep in sync - children, resized pawns, crawling, lying down, animations and anything else that moves a head are all handled by the game. And it costs nothing per tick: the glow is drawn in the pawn pass that already happens, and whether it should be lit is only re-checked when the pawn's rendering changes anyway.
-
-Everything that used to happen every tick for the glow - the motes, maintaining them, rebuilding them on every turn - is simply gone.
-
-FOLLOWS RESIZING
-Big and Small lifts a resized pawn off the ground and scales its head. A pawn with a large frame gene plus a gigantism trait could end up with the glow most of a tile below its eyes. On the render node path this needs no special handling at all, because the glow rides the same head transform Big and Small is already adjusting - and stacked size sources compose for free.
-
-Big and Small is optional and is not required.
-
-RUNS CHEAPER
-Glowing eyes genes checks each eye by walking every non-missing body part and allocating a list, per eye, per pawn, every tick. Measured in a running colony: 268,268 predicate calls against 4,004 checks, over half its total cost, climbing past 12% of frame time as glowing pawns accumulate. That answer is now cached - same counts, same rules, both eyes in one walk - and refreshed when the pawn's health actually changes, off a signal the game already fires.
-
-The movement trail is the only thing left running on a schedule, and it is emitted half as often. The original laid down about forty-eight overlapping copies per eye at once; the sprite is larger and longer-lived to compensate, so the streak reads as continuous while fewer are created.
-
-SETTINGS
-Glow size, how much it swells while walking, trail density and trail brightness, and whether to stop drawing the glow above a chosen game speed.
-
-REQUIREMENTS
-Glowing eyes genes, Biotech and Harmony. Big and Small is supported but not required. Compatible with Facial Animation and EyeGenes3; neither is needed. The glow is injected without being attached to a gene, so Facial Animation's gene part filters leave it alone even with eye parts switched off.
-
-NOTE
-Children's glow sits lower than Glowing eyes genes drew it, tracking their smaller head. That is the intended fix rather than a side effect.
-
-Safe to add or remove mid-save.</description>
+  <description>Glowing eyes genes draws its glow at a hardcoded height and recomputes it every tick. This puts it on the eyes of whoever is actually wearing it, and takes most of the running cost out..</description>
 </ModMetaData>

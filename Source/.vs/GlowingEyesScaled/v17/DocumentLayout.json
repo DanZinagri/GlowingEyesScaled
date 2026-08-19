@@ -3,12 +3,36 @@
   "WorkspaceRootPath": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\GlowingEyesScaled\\Source\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4C09B5B2-D762-E42C-D552-16908FA974EC}|GlowingEyesScaled.csproj|e:\\steamlibrary\\steamapps\\common\\rimworld\\mods\\glowingeyesscaled\\source\\trailemitter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4C09B5B2-D762-E42C-D552-16908FA974EC}|GlowingEyesScaled.csproj|solutionrelative:trailemitter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4C09B5B2-D762-E42C-D552-16908FA974EC}|GlowingEyesScaled.csproj|e:\\steamlibrary\\steamapps\\common\\rimworld\\mods\\glowingeyesscaled\\source\\glowsuppressor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4C09B5B2-D762-E42C-D552-16908FA974EC}|GlowingEyesScaled.csproj|solutionrelative:glowsuppressor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C09B5B2-D762-E42C-D552-16908FA974EC}|GlowingEyesScaled.csproj|e:\\steamlibrary\\steamapps\\common\\rimworld\\mods\\glowingeyesscaled\\source\\glowrecache.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4C09B5B2-D762-E42C-D552-16908FA974EC}|GlowingEyesScaled.csproj|solutionrelative:glowrecache.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4C09B5B2-D762-E42C-D552-16908FA974EC}|GlowingEyesScaled.csproj|e:\\steamlibrary\\steamapps\\common\\rimworld\\mods\\glowingeyesscaled\\source\\gene_eyeglow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4C09B5B2-D762-E42C-D552-16908FA974EC}|GlowingEyesScaled.csproj|solutionrelative:gene_eyeglow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C09B5B2-D762-E42C-D552-16908FA974EC}|GlowingEyesScaled.csproj|e:\\steamlibrary\\steamapps\\common\\rimworld\\mods\\glowingeyesscaled\\source\\gegbridge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4C09B5B2-D762-E42C-D552-16908FA974EC}|GlowingEyesScaled.csproj|solutionrelative:gegbridge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C09B5B2-D762-E42C-D552-16908FA974EC}|GlowingEyesScaled.csproj|e:\\steamlibrary\\steamapps\\common\\rimworld\\mods\\glowingeyesscaled\\source\\eyeglownodesetup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4C09B5B2-D762-E42C-D552-16908FA974EC}|GlowingEyesScaled.csproj|solutionrelative:eyeglownodesetup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C09B5B2-D762-E42C-D552-16908FA974EC}|GlowingEyesScaled.csproj|e:\\steamlibrary\\steamapps\\common\\rimworld\\mods\\glowingeyesscaled\\source\\eyeglowdef.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4C09B5B2-D762-E42C-D552-16908FA974EC}|GlowingEyesScaled.csproj|solutionrelative:eyeglowdef.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C09B5B2-D762-E42C-D552-16908FA974EC}|GlowingEyesScaled.csproj|e:\\steamlibrary\\steamapps\\common\\rimworld\\mods\\glowingeyesscaled\\source\\eyecache.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4C09B5B2-D762-E42C-D552-16908FA974EC}|GlowingEyesScaled.csproj|solutionrelative:eyecache.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C09B5B2-D762-E42C-D552-16908FA974EC}|GlowingEyesScaled.csproj|e:\\steamlibrary\\steamapps\\common\\rimworld\\mods\\glowingeyesscaled\\source\\trailemitter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4C09B5B2-D762-E42C-D552-16908FA974EC}|GlowingEyesScaled.csproj|solutionrelative:trailemitter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -23,28 +47,99 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "TrailEmitter.cs",
-              "DocumentMoniker": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\GlowingEyesScaled\\Source\\TrailEmitter.cs",
-              "RelativeDocumentMoniker": "TrailEmitter.cs",
-              "ToolTip": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\GlowingEyesScaled\\Source\\TrailEmitter.cs",
-              "RelativeToolTip": "TrailEmitter.cs",
-              "ViewState": "AgIAAGAAAAAAAAAAAAAowBkAAAASAAAAAAAAAA==",
+              "Title": "GlowSuppressor.cs",
+              "DocumentMoniker": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\GlowingEyesScaled\\Source\\GlowSuppressor.cs",
+              "RelativeDocumentMoniker": "GlowSuppressor.cs",
+              "ToolTip": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\GlowingEyesScaled\\Source\\GlowSuppressor.cs",
+              "RelativeToolTip": "GlowSuppressor.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-19T13:49:42.537Z",
+              "WhenOpened": "2026-08-19T14:04:13.447Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "GlowRecache.cs",
+              "DocumentMoniker": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\GlowingEyesScaled\\Source\\GlowRecache.cs",
+              "RelativeDocumentMoniker": "GlowRecache.cs",
+              "ToolTip": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\GlowingEyesScaled\\Source\\GlowRecache.cs",
+              "RelativeToolTip": "GlowRecache.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAwwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-19T14:04:10.64Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "GegBridge.cs",
+              "DocumentMoniker": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\GlowingEyesScaled\\Source\\GegBridge.cs",
+              "RelativeDocumentMoniker": "GegBridge.cs",
+              "ToolTip": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\GlowingEyesScaled\\Source\\GegBridge.cs",
+              "RelativeToolTip": "GegBridge.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-19T14:04:08.271Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "EyeGlowNodeSetup.cs",
+              "DocumentMoniker": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\GlowingEyesScaled\\Source\\EyeGlowNodeSetup.cs",
+              "RelativeDocumentMoniker": "EyeGlowNodeSetup.cs",
+              "ToolTip": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\GlowingEyesScaled\\Source\\EyeGlowNodeSetup.cs",
+              "RelativeToolTip": "EyeGlowNodeSetup.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-19T14:04:06.746Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "EyeGlowDef.cs",
+              "DocumentMoniker": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\GlowingEyesScaled\\Source\\EyeGlowDef.cs",
+              "RelativeDocumentMoniker": "EyeGlowDef.cs",
+              "ToolTip": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\GlowingEyesScaled\\Source\\EyeGlowDef.cs",
+              "RelativeToolTip": "EyeGlowDef.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-19T14:04:05.405Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "EyeCache.cs",
+              "DocumentMoniker": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\GlowingEyesScaled\\Source\\EyeCache.cs",
+              "RelativeDocumentMoniker": "EyeCache.cs",
+              "ToolTip": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\GlowingEyesScaled\\Source\\EyeCache.cs",
+              "RelativeToolTip": "EyeCache.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-19T13:59:45.182Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "TrailEmitter.cs",
+              "DocumentMoniker": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\GlowingEyesScaled\\Source\\TrailEmitter.cs",
+              "RelativeDocumentMoniker": "TrailEmitter.cs",
+              "ToolTip": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\GlowingEyesScaled\\Source\\TrailEmitter.cs",
+              "RelativeToolTip": "TrailEmitter.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAABSAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-19T13:49:42.537Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Gene_EyeGlow.cs",
               "DocumentMoniker": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\GlowingEyesScaled\\Source\\Gene_EyeGlow.cs",
               "RelativeDocumentMoniker": "Gene_EyeGlow.cs",
               "ToolTip": "E:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\GlowingEyesScaled\\Source\\Gene_EyeGlow.cs",
               "RelativeToolTip": "Gene_EyeGlow.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAAAAsAAAA3AAAAAAAAAA==",
+              "ViewState": "AgIAADAAAAAAAAAAAAAowBMAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-19T13:43:54.029Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-08-19T13:43:54.029Z"
             }
           ]
         }

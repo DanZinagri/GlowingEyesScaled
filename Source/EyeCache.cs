@@ -4,17 +4,6 @@ using Verse;
 namespace GlowingEyesScaled
 {
     // Memoises Glowing eyes genes' two eye-presence checks.
-    //
-    // The originals each run
-    // GetNotMissingParts().Where(p => p.customLabel == "left eye").ToList().Count == 1
-    // per eye, per pawn, every tick - a full walk of roughly 67 body parts plus a
-    // List allocation. Profiling showed 268,268 predicate invocations against
-    // 4,004 eye checks, over half of the mod's total cost, growing with the number
-    // of glowing pawns.
-    //
-    // This changes no semantics: the same counts, the same "exactly one" rule.
-    // Both eyes are resolved in a single walk instead of two, and the answer is
-    // held until the pawn's health actually changes.
     public static class EyeCache
     {
         private struct EyeState
