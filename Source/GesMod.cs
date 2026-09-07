@@ -163,6 +163,10 @@ namespace GlowingEyesScaled
 
         public static void FinalizeInitPostfix()
         {
+            // Runs on every game load, new or saved. The cache is keyed on
+            // thingIDNumber, which repeats between saves, so it must not carry
+            // entries from one game into another.
+            EyeCache.ClearAll();
             LegacyGeneMigration.Run();
         }
 

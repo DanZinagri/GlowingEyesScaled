@@ -16,15 +16,11 @@ namespace GlowingEyesScaled
     // recaches, not per frame and not per tick.
     public class PawnRenderNode_EyeGlow : PawnRenderNode_AttachmentHead
     {
-        // World position as of the last frame this node was actually drawn, and
-        // the frame it was drawn on. The trail is thrown from here.
-        //
-        // The frame number is what stops the bug the first attempt had: when a pawn
-        // turned north the node stopped drawing, its cached position went stale,
-        // and the trail kept being emitted at that dead spot. Anything reading this
-        // must check the frame is current.
+        // World position as of the last frame this node was actually drawn. The
+        // trail is thrown from here. It cannot go stale: the trail is laid inside
+        // the same PostDraw that records it, so a node that stops drawing also
+        // stops emitting in the same breath.
         public Vector3 lastDrawnWorldPos;
-        public int lastDrawnFrame = -1;
 
         // World width of the glow as last drawn. The trail is sized off this so it
         // stays in proportion on a resized pawn without asking anyone how big the
@@ -48,8 +44,6 @@ namespace GlowingEyesScaled
         public Color cachedColor = Color.white;
 
         public bool IsLeft => props.side == PawnRenderNodeProperties.Side.Left;
-
-        public bool DrawnRecently => lastDrawnFrame >= 0 && Time.frameCount - lastDrawnFrame <= 2;
 
         public PawnRenderNode_EyeGlow(Pawn pawn, PawnRenderNodeProperties props, PawnRenderTree tree)
             : base(pawn, props, tree)
@@ -197,7 +191,6 @@ namespace GlowingEyesScaled
             // matrix is the node's final world matrix, handed to us by
             // PawnRenderTree.Draw, with every ancestor transform already folded in.
             glow.lastDrawnWorldPos = matrix.MultiplyPoint3x4(Vector3.zero);
-            glow.lastDrawnFrame = Time.frameCount;
 
             // The matrix scale is not the drawn width on its own - the node's mesh
             // is the head's hair mesh, 1.5 wide by default, and the matrix scales
