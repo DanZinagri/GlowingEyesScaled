@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- Tags let the driver find its own nodes again through the public
+       PawnRenderTree.TryGetNodeByTag, rather than keeping a Pawn-keyed dictionary
+       that would have to be swept. -->
+  <PawnRenderNodeTagDef>
+    <defName>GES_EyeGlowLeft</defName>
+  </PawnRenderNodeTagDef>
+
+  <PawnRenderNodeTagDef>
+    <defName>GES_EyeGlowRight</defName>
+  </PawnRenderNodeTagDef>
+
+  <GlowingEyesScaled.EyeGlowDef>
+    <defName>GES_EyeGlow</defName>
+    <nodes>
+
+      <li>
+        <nodeClass>GlowingEyesScaled.PawnRenderNode_EyeGlow</nodeClass>
+        <workerClass>GlowingEyesScaled.PawnRenderNodeWorker_EyeGlow</workerClass>
+        <tagDef>GES_EyeGlowRight</tagDef>
+        <parentTagDef>Head</parentTagDef>
+        <texPath>Things/Mote/EyeGlow</texPath>
+        <shaderTypeDef>MoteGlow</shaderTypeDef>
+        <anchorTag>RightEye</anchorTag>
+        <side>Right</side>
+        <drawSize>0.2</drawSize>
+        <rotDrawMode>Fresh, Rotting</rotDrawMode>
+        <visibleFacing>
+          <li>East</li>
+          <li>South</li>
+          <li>West</li>
+        </visibleFacing>
+        <drawData>
+          <defaultData>
+            <layer>72</layer>
+            <offset>(0, 0, -0.25)</offset>
+          </defaultData>
+        </drawData>
+      </li>
+
+      <li>
+        <nodeClass>GlowingEyesScaled.PawnRenderNode_EyeGlow</nodeClass>
+        <workerClass>GlowingEyesScaled.PawnRenderNodeWorker_EyeGlow</workerClass>
+        <tagDef>GES_EyeGlowLeft</tagDef>
+        <parentTagDef>Head</parentTagDef>
+        <texPath>Things/Mote/EyeGlow</texPath>
+        <shaderTypeDef>MoteGlow</shaderTypeDef>
+        <anchorTag>LeftEye</anchorTag>
+        <side>Left</side>
+        <drawSize>0.2</drawSize>
+        <rotDrawMode>Fresh, Rotting</rotDrawMode>
+        <visibleFacing>
+          <li>East</li>
+          <li>South</li>
+          <li>West</li>
+        </visibleFacing>
+        <drawData>
+          <defaultData>
+            <layer>72</layer>
+            <offset>(0, 0, -0.25)</offset>
+            <flip>true</flip>
+          </defaultData>
+          <dataWest>
+            <flip>false</flip>
+          </dataWest>
+        </drawData>
+      </li>
+
+    </nodes>
+  </GlowingEyesScaled.EyeGlowDef>
+
+</Defs>

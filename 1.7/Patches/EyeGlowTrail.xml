@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Glowing eyes genes</li>
+    </mods>
+    <match Class="PatchOperationSequence">
+      <operations>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/FleckDef[defName="GEG_EyeGlowFleck"]/graphicData/texPath</xpath>
+          <value>
+            <texPath>Things/Mote/GES_EyeGlowTrail</texPath>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/FleckDef[defName="GEG_EyeGlowFleck"]/graphicData/drawSize</xpath>
+          <value>
+            <drawSize>0.32</drawSize>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/FleckDef[@Name="EyeGlowFleck"]/fadeInTime</xpath>
+          <value>
+            <fadeInTime>0.03</fadeInTime>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/FleckDef[@Name="EyeGlowFleck"]/solidTime</xpath>
+          <value>
+            <solidTime>0.55</solidTime>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/FleckDef[@Name="EyeGlowFleck"]/fadeOutTime</xpath>
+          <value>
+            <fadeOutTime>0.15</fadeOutTime>
+          </value>
+        </li>
+
+      </operations>
+    </match>
+  </Operation>
+
+</Patch>

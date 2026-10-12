@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Glowing eyes genes</li>
+    </mods>
+    <match Class="PatchOperationReplace">
+      <xpath>/Defs/GeneDef[@Name="GEG_GeneGlowingEyes"]/geneClass</xpath>
+      <value>
+        <geneClass>GlowingEyesScaled.Gene_EyeGlow</geneClass>
+      </value>
+    </match>
+  </Operation>
+
+</Patch>
